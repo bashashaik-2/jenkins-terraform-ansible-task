@@ -16,13 +16,14 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 script {
-                    dir('/var/lib/jenkins/workspace/ansible-tf/ansible-task/') {
+                    dir('/var/lib/jenkins/workspace/task/jenkins-terraform-ansible-task') {
                     sh 'pwd'
                     sh 'terraform init'
                     sh 'terraform validate'
                     // sh 'terraform destroy -auto-approve'
                     sh 'terraform plan'
                     sh 'terraform apply -auto-approve'
+                    sh 'terraform is done'
                     }
                 }
             }
