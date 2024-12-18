@@ -1,6 +1,9 @@
 pipeline {
     agent any
-
+    environment {
+        AWS_ACCESS_KEY_ID = 'AKIAR7FREX6FPPHTHQE3' 
+        AWS_SECRET_ACCESS_KEY = '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'
+    }
     stages {
         
 
@@ -23,7 +26,7 @@ pipeline {
                     // sh 'terraform destroy -auto-approve'
                     sh 'terraform plan'
                     sh 'terraform apply -auto-approve'
-                    sh 'terraform is done'
+                   
                     }
                 }
             }
@@ -32,9 +35,9 @@ pipeline {
         stage('Ansible Deployment') {
             steps {
                 script {
-                   sleep '360'
-                    ansiblePlaybook becomeUser: 'ec2-user', credentialsId: 'amazonlinux', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/amazon-playbook.yml', vaultTmpPath: ''
-                    ansiblePlaybook become: true, credentialsId: 'ubuntuuser', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/ansible-tf/ansible-task/ubuntu-playbook.yml', vaultTmpPath: ''
+                   sleep '60'
+                    ansiblePlaybook becomeUser: 'ec2-user', credentialsId: 'amazonlinux', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/task/jenkins-terraform-ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/task/jenkins-terraform-ansible-task/amazon-playbook.yml', vaultTmpPath: ''
+                    ansiblePlaybook become: true, credentialsId: 'ubuntuuser', disableHostKeyChecking: true, installation: 'ansible', inventory: '/var/lib/jenkins/workspace/task/jenkins-terraform-ansible-task/inventory.yaml', playbook: '/var/lib/jenkins/workspace/task/jenkins-terraform-ansible-task/ubuntu-playbook.yml', vaultTmpPath: ''
                 }
             }
         }
